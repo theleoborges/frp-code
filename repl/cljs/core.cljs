@@ -452,7 +452,7 @@
   (-equiv [x o] (identical? x o))
 
   IHash
-  (-hash [o] (js-mod (.floor js/Math o) 2147483647)))
+  (-hash [o] o))
 
 (extend-type boolean
   IHash
@@ -1519,8 +1519,8 @@ reduces them without incurring seq initialization"
   "Returns a Keyword with the given namespace and name.  Do not use :
   in the keyword strings, it will be added automatically."
   ([name] (cond (keyword? name) name
-                (symbol? name) (str* "\uFDD0" ":" (subs name 2))
-                :else (str* "\uFDD0" ":" name)))
+                (symbol? name) (str* "\uFDD0" "'" (subs name 2))
+                :else (str* "\uFDD0" "'" name)))
   ([ns name] (keyword (str* ns "/" name))))
 
 
@@ -2731,18 +2731,16 @@ reduces them without incurring seq initialization"
   {:added "1.2"
    :static true}
   ([m ks]
-     (get-in m ks nil))
+     (reduce get m ks))
   ([m ks not-found]
      (loop [sentinel lookup-sentinel
             m m
             ks (seq ks)]
        (if ks
-         (if (not (satisfies? ILookup m))
-           not-found
-           (let [m (get m (first ks) sentinel)]
-             (if (identical? sentinel m)
-               not-found
-               (recur sentinel m (next ks)))))
+         (let [m (get m (first ks) sentinel)]
+           (if (identical? sentinel m)
+             not-found
+             (recur sentinel m (next ks))))
          m))))
 
 (defn assoc-in
@@ -3597,13 +3595,13 @@ reduces them without incurring seq initialization"
   (let [ks  (.-keys m)
         len (alength ks)
         so  (.-strobj m)
-        mm  (meta m)]
+        out (with-meta cljs.core.PersistentHashMap/EMPTY (meta m))]
     (loop [i   0
-           out (transient cljs.core.PersistentHashMap/EMPTY)]
+           out (transient out)]
       (if (< i len)
         (let [k (aget ks i)]
           (recur (inc i) (assoc! out k (aget so k))))
-        (with-meta (persistent! (assoc! out k v)) mm)))))
+        (persistent! (assoc! out k v))))))
 
 ;;; ObjMap
 
@@ -3912,9 +3910,10 @@ reduces them without incurring seq initialization"
                                  (.push k)
                                  (.push v))
                                nil)
-          (with-meta
-            (assoc (into cljs.core.PersistentHashMap/EMPTY coll) k v)
-            meta))
+          (persistent!
+           (assoc!
+            (transient (into cljs.core.PersistentHashMap/EMPTY coll))
+            k v)))
 
         (identical? v (aget arr (inc idx)))
         coll
@@ -5029,12 +5028,12 @@ reduces them without incurring seq initialization"
     (throw (js/Error. "red-black tree invariant violation"))))
 
 (defn- tree-map-kv-reduce [node f init]
-  (let [init (if-not (nil? (.-left node))
-               (tree-map-kv-reduce (.-left node) f init)
-               init)]
+  (let [init (f init (.-key node) (.-val node))]
     (if (reduced? init)
       @init
-      (let [init (f init (.-key node) (.-val node))]
+      (let [init (if-not (nil? (.-left node))
+                   (tree-map-kv-reduce (.-left node) f init)
+                   init)]
         (if (reduced? init)
           @init
           (let [init (if-not (nil? (.-right node))
@@ -7157,7 +7156,7 @@ Maps become Objects. Arbitrary keys are encoded to by key->js."
 (defn- find-and-cache-best-method
   [name dispatch-val hierarchy method-table prefer-table method-cache cached-hierarchy]
   (let [best-entry (reduce (fn [be [k _ :as e]]
-                             (if (isa? @hierarchy dispatch-val k)
+                             (if (isa? dispatch-val k)
                                (let [be2 (if (or (nil? be) (dominates k (first be) prefer-table))
                                            e
                                            be)]
@@ -7307,52 +7306,3 @@ Maps become Objects. Arbitrary keys are encoded to by key->js."
   IHash
   (-hash [this]
     (goog.string/hashCode (pr-str this))))
-
-;;; ExceptionInfo
-
-(deftype ExceptionInfo [message data cause])
-
-;;; ExceptionInfo is a special case, do not emulate this
-(set! cljs.core.ExceptionInfo/prototype (js/Error.))
-(set! (.-constructor cljs.core.ExceptionInfo/prototype) ExceptionInfo)
-
-(defn ex-info
-  "Alpha - subject to change.
-  Create an instance of ExceptionInfo, an Error type that carries a
-  map of additional data."
-  ([msg map]
-     (ExceptionInfo. msg map nil))
-  ([msg map cause]
-     (ExceptionInfo. msg map cause)))
-
-(defn ex-data
-  "Alpha - subject to change.
-  Returns exception data (a map) if ex is an ExceptionInfo.
-  Otherwise returns nil."
-  [ex]
-  (when (instance? ExceptionInfo ex)
-    (.-data ex)))
-
-(defn ex-message
-  "Alpha - subject to change.
-  Returns the message attached to the given Error / ExceptionInfo object.
-  For non-Errors returns nil."
-  [ex]
-  (when (instance? js/Error ex)
-    (.-message ex)))
-
-(defn ex-cause
-  "Alpha - subject to change.
-  Returns exception cause (an Error / ExceptionInfo) if ex is an
-  ExceptionInfo.
-  Otherwise returns nil."
-  [ex]
-  (when (instance? ExceptionInfo ex)
-    (.-cause ex)))
-
-(defn comparator
-  "Returns an JavaScript compatible comparator based upon pred."
-  [pred]
-  (fn [x y]
-    (cond (pred x y) -1 (pred y x) 1 :else 0)))
-

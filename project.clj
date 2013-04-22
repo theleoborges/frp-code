@@ -2,14 +2,19 @@
   :description "Sample code for my FRP Talk"
   :source-paths ["src-clj"]
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [compojure "1.0.4"]
+                 [compojure "1.1.5"]
                  [hiccup "1.0.0"]
-                 [jayq "2.3.0"]]
+                 [jayq "2.3.0"]
+                 [com.cemerick/piggieback "0.0.4"]
+                 [shoreleave/shoreleave-remote "0.3.0"]
+                 [shoreleave/shoreleave-remote-ring "0.3.0"]]
   :plugins [[lein-cljsbuild "0.3.0"]
             [lein-ring "0.7.0"]]
-  :cljsbuild {
-    :builds [{:source-paths ["src-cljs"]
-              :compiler {:output-to "resources/public/js/main.js"
-                         :optimizations :whitespace
-                         :pretty-print true}}]}
+  :cljsbuild
+  {:builds [{;;:incremental false
+             :source-paths ["src-cljs"]
+             :compiler {:output-to "resources/public/js/main.js"
+                        :optimizations :whitespace
+                        :pretty-print true}}]}
+  :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
   :ring {:handler example.routes/app})

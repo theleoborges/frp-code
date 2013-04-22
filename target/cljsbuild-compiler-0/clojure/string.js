@@ -25,7 +25,7 @@ if(cljs.core.string_QMARK_.call(null,match))
 {if(cljs.core.truth_(match.hasOwnProperty("source")))
 {return s.replace((new RegExp(match.source,"g")),replacement);
 } else
-{if("\uFDD0'else")
+{if("\uFDD0:else")
 {throw [cljs.core.str("Invalid match arg: "),cljs.core.str(match)].join('');
 } else
 {return null;
@@ -117,12 +117,12 @@ if(cljs.core.truth_(temp__4090__auto__))
 {var m = temp__4090__auto__;
 var index = s__$1.indexOf(m);
 {
-var G__3083 = s__$1.substring((index + cljs.core.count.call(null,m)));
-var G__3084 = (limit__$1 - 1);
-var G__3085 = cljs.core.conj.call(null,parts,s__$1.substring(0,index));
-s__$1 = G__3083;
-limit__$1 = G__3084;
-parts = G__3085;
+var G__9924 = s__$1.substring((index + cljs.core.count.call(null,m)));
+var G__9925 = (limit__$1 - 1);
+var G__9926 = cljs.core.conj.call(null,parts,s__$1.substring(0,index));
+s__$1 = G__9924;
+limit__$1 = G__9925;
+parts = G__9926;
 continue;
 }
 } else
@@ -184,16 +184,16 @@ if((index === 0))
 {return "";
 } else
 {var ch = cljs.core._lookup.call(null,s,(index - 1),null);
-if((function (){var or__3943__auto__ = cljs.core._EQ_.call(null,ch,"\n");
+if(cljs.core.truth_((function (){var or__3943__auto__ = cljs.core._EQ_.call(null,ch,"\n");
 if(or__3943__auto__)
 {return or__3943__auto__;
 } else
 {return cljs.core._EQ_.call(null,ch,"\r");
 }
-})())
+})()))
 {{
-var G__3086 = (index - 1);
-index = G__3086;
+var G__9927 = (index - 1);
+index = G__9927;
 continue;
 }
 } else
@@ -225,16 +225,16 @@ if(cljs.core._EQ_.call(null,length,index))
 {return buffer.toString();
 } else
 {var ch = s.charAt(index);
-var temp__4090__auto___3087 = cljs.core._lookup.call(null,cmap,ch,null);
-if(cljs.core.truth_(temp__4090__auto___3087))
-{var replacement_3088 = temp__4090__auto___3087;
-buffer.append([cljs.core.str(replacement_3088)].join(''));
+var temp__4090__auto___9928 = cljs.core._lookup.call(null,cmap,ch,null);
+if(cljs.core.truth_(temp__4090__auto___9928))
+{var replacement_9929 = temp__4090__auto___9928;
+buffer.append([cljs.core.str(replacement_9929)].join(''));
 } else
 {buffer.append(ch);
 }
 {
-var G__3089 = (index + 1);
-index = G__3089;
+var G__9930 = (index + 1);
+index = G__9930;
 continue;
 }
 }
