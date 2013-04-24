@@ -1,7 +1,23 @@
 (ns example.services
   (:require [shoreleave.middleware.rpc :refer (defremote)]))
 
+(def poll-ids       [1 2 3 4])
+(def poll-questions ["Which music genre is best?"
+                     "Which instrument do you like best?"
+                     "Who's the biggest Rock 'n Roll Legend?"
+                     "How many software engineers does it take to learn FRP?"])
+
+(def polls (atom (mapcat (fn [id question]
+                             (for [n (range 5)]
+                               {:id id
+                                :question question
+                                :results {:a (rand-int 1000)
+                                          :b (rand-int 1000)
+                                          :c (rand-int 1000)}}))
+                         poll-ids
+                         poll-questions)))
+
 (defremote poll-results []
-  {:results {:a 15
-             :b 25
-             :c 20}})
+  (let [resp (first @polls)]
+    (swap! polls #(concat (rest %) [(first %)]))
+    resp))

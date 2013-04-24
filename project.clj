@@ -7,9 +7,11 @@
                  [jayq "2.3.0"]
                  [com.cemerick/piggieback "0.0.4"]
                  [shoreleave/shoreleave-remote "0.3.0"]
-                 [shoreleave/shoreleave-remote-ring "0.3.0"]]
+                 [shoreleave/shoreleave-remote-ring "0.3.0"]
+                 [enfocus "1.0.1"]
+                 [crate "0.2.4"]]
   :plugins [[lein-cljsbuild "0.3.0"]
-            [lein-ring "0.7.0"]]
+            [lein-ring "0.8.4"]]
   :cljsbuild
   {:builds [{;;:incremental false
              :source-paths ["src-cljs"]

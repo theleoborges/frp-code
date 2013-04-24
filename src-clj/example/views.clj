@@ -10,7 +10,11 @@
     [:meta {:charset "utf-8"}]    
     [:title "Hello World"]
     (include-js "http://code.jquery.com/jquery-1.9.1.min.js")
-    (include-js "/js/rx.min.js")    
+    (include-js "/js/rx.min.js")
+    (include-js "/js/rx.binding.min.js")    
+    (include-js "/js/rx.time.min.js")    
     (include-js "/js/main.js")]
    [:body
-    [:h1 "Hello World"]]))
+    [:h1 "Hello World"]
+    [:div {:id "poll-results"}]
+    [:div {:id "last-updated-at"}]]))
