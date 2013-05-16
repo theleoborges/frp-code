@@ -2,7 +2,7 @@
   (:require [shoreleave.middleware.rpc :refer (defremote)]))
 
 (def poll-ids       [1 2 3 4])
-(def poll-questions ["Which music genre is best?"
+(def poll-questions ["Which is the best music style?"
                      "Which instrument do you like best?"
                      "Who's the biggest Rock 'n Roll Legend?"
                      "How many software engineers does it take to learn FRP?"])
