@@ -7,15 +7,10 @@
             [crate.core :as crate]
             [example.polls.observables :as obs]))
 
-(defpartial results-partial [results]
-  [:ul
-   (for [[label votes] results]
-     [:li (str label " - " votes)])])
-
 (defn render-poll [{:keys [results question]}]
   (inner ($ :#countdown) "")
   (inner ($ :#question-text) question)
-  (inner ($ "#poll-results") (results-partial results)))
+  (js/updateGraph (clj->js (vals results))))
 
 (defn countdown-and-do [n f]
   (if (> n 0)
@@ -59,6 +54,5 @@
 
 (ready
  (-> ($ :#question-text)
-     (css {:background "blue"})
      (inner "Nothing here. Yet."))
  (repl/connect "http://localhost:9000/repl"))

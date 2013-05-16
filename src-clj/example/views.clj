@@ -13,12 +13,15 @@
     (include-js "/js/rx.binding.min.js")    
     (include-js "/js/rx.time.min.js")
     (include-js "/js/rx.aggregates.min.js")
-    (include-js "/js/rx.coincidence.min.js")            
+    (include-js "/js/rx.coincidence.min.js")
+    (include-js "/js/d3.min.js") 
     (include-js "/js/main.js")]
    [:body
     [:h1
      [:span {:id "countdown"}]
      [:p]
      [:span {:id "question-text"}]]
-    [:div {:id "poll-results"}]
-    [:div {:id "last-updated-at"}]]))
+    [:div {:id "graph"}]    
+    (include-js "/js/graph.js")]))
+
+

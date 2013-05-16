@@ -11,9 +11,9 @@
                              (for [n (range 5)]
                                {:id id
                                 :question question
-                                :results {:a (rand-int 1000)
-                                          :b (rand-int 1000)
-                                          :c (rand-int 1000)}}))
+                                :results {:a (rand-int 33)
+                                          :b (rand-int 33)
+                                          :c (rand-int 33)}}))
                          poll-ids
                          poll-questions)))
 
