@@ -1,9 +1,8 @@
-# cljsbuild-example-simple
+# Taming asynchronous workflows with FRP
 
-This is an example web application that uses [lein-cljsbuild][1],
-[Ring][2], and [Compojure][3].  It demonstrates the use of
-lein-cljsbuild to build ClojureScript into JavaScript.
+This repository contains the sample project I used during my FRP talk at YOW! LambdaJam Australia 2013. 
 
+Slides are in the root directory.
 To play around with this example project, you will first need
 [Leiningen][4] installed.
 
@@ -17,7 +16,4 @@ Set up and start the server like this:
 
 Now, point your web browser at `http://localhost:3000`, and see the web app in action!
 
-[1]: https://github.com/emezeske/lein-cljsbuild
-[2]: https://github.com/mmcgrana/ring
-[3]: https://github.com/weavejester/compojure
 [4]: https://github.com/technomancy/leiningen
