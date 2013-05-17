@@ -35752,11 +35752,11 @@ goog.require("crate.core");
 goog.require("shoreleave.remote");
 goog.require("clojure.browser.repl");
 goog.require("jayq.core");
-example.hello.render_poll = function render_poll(p__46396) {
-  var map__46398 = p__46396;
-  var map__46398__$1 = cljs.core.seq_QMARK_.call(null, map__46398) ? cljs.core.apply.call(null, cljs.core.hash_map, map__46398) : map__46398;
-  var question = cljs.core._lookup.call(null, map__46398__$1, "\ufdd0:question", null);
-  var results = cljs.core._lookup.call(null, map__46398__$1, "\ufdd0:results", null);
+example.hello.render_poll = function render_poll(p__47638) {
+  var map__47640 = p__47638;
+  var map__47640__$1 = cljs.core.seq_QMARK_.call(null, map__47640) ? cljs.core.apply.call(null, cljs.core.hash_map, map__47640) : map__47640;
+  var question = cljs.core._lookup.call(null, map__47640__$1, "\ufdd0:question", null);
+  var results = cljs.core._lookup.call(null, map__47640__$1, "\ufdd0:results", null);
   jayq.core.inner.call(null, jayq.core.$.call(null, "\ufdd0:#countdown"), "");
   jayq.core.inner.call(null, jayq.core.$.call(null, "\ufdd0:#question-text"), question);
   return updateGraph(cljs.core.clj__GT_js.call(null, cljs.core.vals.call(null, results)))
@@ -35786,10 +35786,10 @@ example.hello.start = function start() {
   return null
 };
 example.hello.start_1 = function start_1() {
-  var token = example.polls.observables.results_buffer.subscribe(function(p__46401) {
-    var vec__46402 = p__46401;
-    var prev = cljs.core.nth.call(null, vec__46402, 0, null);
-    var curr = cljs.core.nth.call(null, vec__46402, 1, null);
+  var token = example.polls.observables.results_buffer.subscribe(function(p__47643) {
+    var vec__47644 = p__47643;
+    var prev = cljs.core.nth.call(null, vec__47644, 0, null);
+    var curr = cljs.core.nth.call(null, vec__47644, 1, null);
     if(cljs.core._EQ_.call(null, (new cljs.core.Keyword("\ufdd0:id")).call(null, prev), (new cljs.core.Keyword("\ufdd0:id")).call(null, curr))) {
       return example.hello.render_poll.call(null, curr)
     }else {
@@ -35801,5 +35801,6 @@ example.hello.start_1 = function start_1() {
 };
 jayq.core.document_ready.call(null, function() {
   jayq.core.inner.call(null, jayq.core.$.call(null, "\ufdd0:#question-text"), "Nothing here. Yet.");
+  example.hello.start.call(null);
   return clojure.browser.repl.connect.call(null, "http://localhost:9000/repl")
 });

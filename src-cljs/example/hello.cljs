@@ -36,7 +36,7 @@
                                (do (.dispose js/tk)
                                    (countdown-and-do 10 start))))))]))
 
-;;(start)
+
 
 ;;
 ;; Demo 1.1
@@ -55,4 +55,5 @@
 (ready
  (-> ($ :#question-text)
      (inner "Nothing here. Yet."))
+ (start)
  (repl/connect "http://localhost:9000/repl"))
