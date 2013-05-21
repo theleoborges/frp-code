@@ -5,7 +5,8 @@
   (:require [clojure.browser.repl :as repl]
             [shoreleave.remote]
             [crate.core :as crate]
-            [example.polls.observables :as obs]))
+            [example.polls.observables :as obs]
+			[rx-cljs.observable :as o]))
 
 (defn render-poll [{:keys [results question]}]
   (inner ($ :#countdown) "")
@@ -29,11 +30,11 @@
 (defn start []
   (.log js/console "Starting.")  
   (let [tk (-> obs/results-connectable
-               (.subscribe (fn [resp]
+               (o/subscribe (fn [resp]
                              (if (= (-> resp :curr :id)
                                     (-> resp :prev :id))
                                (render-poll (:curr resp))
-                               (do (.dispose js/tk)
+                               (do (o/dispose js/tk)
                                    (countdown-and-do 10 start))))))]))
 
 
@@ -43,11 +44,11 @@
 ;;
 (defn start-1 []
   (let [token (-> obs/results-buffer
-                  (.subscribe (fn [[prev curr]]
+                  (o/subscribe (fn [[prev curr]]
                                 (if (= (:id prev)
                                        (:id curr))
                                   (render-poll curr)
-                                  (do (.dispose js/token)
+                                  (do (o/dispose js/token)
                                       (countdown-and-do 10 start-1))))))]))
 
 ;;(start-1)
