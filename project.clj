@@ -10,7 +10,7 @@
                  [shoreleave/shoreleave-remote-ring "0.3.0"]
                  [enfocus "1.0.1"]
                  [crate "0.2.4"]
-				 [com.leonardoborges/rx-cljs "0.0.1-SNAPSHOT"]]
+				 [com.leonardoborges/rx-cljs "0.0.2-SNAPSHOT"]]
   :plugins [[lein-cljsbuild "0.3.0"]
             [lein-ring "0.8.4"]]
   :cljsbuild
